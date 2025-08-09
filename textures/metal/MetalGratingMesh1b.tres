@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dew6618e03ssp"]
+
+[ext_resource type="Texture2D" uid="uid://dc31trd4i825y" path="res://textures/metal/MetalGratingMesh1b.png" id="1_1iv1f"]
+
+[resource]
+albedo_texture = ExtResource("1_1iv1f")
+metallic_specular = 0.0
+texture_filter = 2

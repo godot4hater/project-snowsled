@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://845mlh3gqn8a"]
+
+[ext_resource type="Texture2D" uid="uid://1bxlbntvs3mb" path="res://textures/metal/MetalCorrugated1a.png" id="1_xbs3k"]
+
+[resource]
+albedo_texture = ExtResource("1_xbs3k")
+metallic_specular = 0.0
+texture_filter = 0

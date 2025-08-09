@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cbbp3c2vsathj"]
+
+[ext_resource type="Texture2D" uid="uid://up2g5fueyt1d" path="res://textures/carpet/CarpetPattern1d.png" id="1_mxedv"]
+
+[resource]
+albedo_texture = ExtResource("1_mxedv")
+metallic_specular = 0.0
+texture_filter = 2
