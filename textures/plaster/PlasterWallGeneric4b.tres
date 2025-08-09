@@ -1,8 +1,0 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cnnb4r0be5pu7"]
-
-[ext_resource type="Texture2D" uid="uid://banut8q36mu4a" path="res://textures/plaster/PlasterWallGeneric4b.png" id="1_uue02"]
-
-[resource]
-albedo_texture = ExtResource("1_uue02")
-metallic_specular = 0.0
-texture_filter = 2

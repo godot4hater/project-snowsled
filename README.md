@@ -1,2 +1,0 @@
-# project sandtrap
-godot game

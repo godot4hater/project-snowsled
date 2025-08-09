@@ -1,8 +1,0 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dtvt7cj5deqh7"]
-
-[ext_resource type="Texture2D" uid="uid://c73gmlwc6g8w1" path="res://textures/glass/GlassWindowSquare2a.png" id="1_dtjmr"]
-
-[resource]
-albedo_texture = ExtResource("1_dtjmr")
-metallic_specular = 0.0
-texture_filter = 2
