@@ -86,7 +86,7 @@ func BeepMineRange() -> void:
 		
 		if curDistance < closestDistance:
 			closestDistance = curDistance
-			
+			print(mine.global_position)		
 	closeMineTemp = closestDistance
 		
 	if closeMineTemp > MAX_RADAR_DISTANCE:
