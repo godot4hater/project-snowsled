@@ -1,8 +1,8 @@
 extends Camera3D
 
-@onready var Player : CharacterBody3D			= get_parent()
-@onready var radarBeepSnd : AudioStreamPlayer3D = $RadarBeep
-@onready var podObj : Node3D					= get_parent().get_parent()
+@export var Player : CharacterBody3D		
+@export var radarBeepSnd : AudioStreamPlayer3D
+@export var podObj : Node3D
 
 const CAM_TURN_SPEED : float 					= 500.0
 const POD_SPEED : float							= 0.075

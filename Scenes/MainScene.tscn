@@ -1,9 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://bi67ox6a65cji"]
+[gd_scene load_steps=21 format=3 uid="uid://bi67ox6a65cji"]
 
 [ext_resource type="PackedScene" uid="uid://mwj1qdw7y8b8" path="res://Scenes/shuttle_status_panel.tscn" id="1_q68mp"]
 [ext_resource type="Script" uid="uid://bpe0d1qxhxvai" path="res://Scripts/camera.gd" id="2_q68mp"]
+[ext_resource type="PackedScene" uid="uid://b1pacot6yfvto" path="res://assets/blender/Player.blend" id="3_0iob3"]
 [ext_resource type="AudioStream" uid="uid://bwqdo3qkbjhyn" path="res://Sounds/radar.wav" id="3_f140w"]
 [ext_resource type="Texture2D" uid="uid://bdrhcrtilnusg" path="res://Sprites/cursor.png" id="4_0iob3"]
+[ext_resource type="Script" uid="uid://bvupbh3q546ir" path="res://hand_ik.gd" id="4_4b75m"]
 [ext_resource type="AudioStream" uid="uid://cf7t5lr8a1yy0" path="res://Sounds/podidlesound.wav" id="5_4b75m"]
 [ext_resource type="Script" uid="uid://bxm3hdlgogvpq" path="res://Scripts/mine.gd" id="6_8ju71"]
 [ext_resource type="PackedScene" uid="uid://fhethyomc7m5" path="res://assets/blender/PilotV2.blend" id="6_q68mp"]
@@ -22,6 +24,10 @@ emission_operator = 1
 emission_texture = SubResource("ViewportTexture_x4av3")
 uv1_scale = Vector3(-1, 1, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q68mp"]
+cull_mode = 2
+vertex_color_use_as_albedo = true
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_x4av3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a814b"]
@@ -38,10 +44,6 @@ size = Vector3(0.238342, 0.211517, 0.171326)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8xkvn"]
 size = Vector3(4.922, 3.94678, 7.69678)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q68mp"]
-cull_mode = 2
-vertex_color_use_as_albedo = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_rpqi1"]
 
@@ -81,22 +83,113 @@ light_color = Color(0.353333, 1, 0, 1)
 shadow_enabled = true
 omni_attenuation = 0.45
 
+[node name="PilotV2" parent="EscapepodMesh" instance=ExtResource("6_q68mp")]
+transform = Transform3D(-1.25, -5.50056e-09, 1.88665e-07, 4.44089e-16, 1.24947, 0.0364286, -1.88745e-07, 0.0364286, -1.24947, 1.4219e-07, 0.0128613, 0.375351)
+
+[node name="Badge" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
+
+[node name="Body" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
+
+[node name="Ears" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="2"]
+surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
+
+[node name="FaceDetail" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="3"]
+surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
+
+[node name="Head" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="4"]
+surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
+
+[node name="Tail" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="5"]
+surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="6"]
+transform = Transform3D(1, 3.55271e-15, 2.38419e-07, 9.51958e-08, 0.916829, -0.39928, -2.18589e-07, 0.39928, 0.916829, -9.72265e-18, 1.0357, -0.0437869)
+bone_name = "spine1"
+bone_idx = 1
+
+[node name="AnimationPlayer" parent="EscapepodMesh/PilotV2" index="1"]
+autoplay = "prone"
+
+[node name="InterestPoint" type="Marker3D" parent="EscapepodMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.233261, 0.834548)
+
+[node name="PilotInterestPoint" type="Marker3D" parent="EscapepodMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0380843, 0.168703, 0.638795)
+
+[node name="LeftHandMarker" type="Marker3D" parent="EscapepodMesh"]
+transform = Transform3D(0.38404, -0.615564, 1.01789, -1.10939, 0.200636, 0.539899, -0.429253, -1.06927, -0.484682, -0.335163, 0.211686, 1.3083)
+
+[node name="RightHandMarker" type="Marker3D" parent="EscapepodMesh"]
+transform = Transform3D(0.706199, 0.296036, -0.988001, 0.764089, 0.654128, 0.74215, 0.692786, -1.02322, 0.188597, 0.39168, 0.211423, 1.08202)
+
+[node name="Player" parent="EscapepodMesh" instance=ExtResource("3_0iob3")]
+transform = Transform3D(-1.25, 0, -1.88745e-07, 0, 1.25, 0, 1.88745e-07, 0, -1.25, -4.20801e-08, -0.0621179, 0.98934)
+
+[node name="WaistLookAtModifier" type="LookAtModifier3D" parent="EscapepodMesh/Player/Armature/Skeleton3D" index="2"]
+transform = Transform3D(1, 0, -1.42109e-14, 0, 1, 0, 1.42109e-14, 0, 1, 0, 0, 0)
+influence = 0.25
+target_node = NodePath("../../../../InterestPoint")
+bone_name = "spine2"
+bone = 2
+
+[node name="ChestLookAtModifier" type="LookAtModifier3D" parent="EscapepodMesh/Player/Armature/Skeleton3D" index="3"]
+transform = Transform3D(1, 0, -1.42109e-14, 0, 1, 0, 1.42109e-14, 0, 1, 0, 0, 0)
+influence = 0.21
+target_node = NodePath("../../../../InterestPoint")
+bone_name = "spine3"
+bone = 3
+
+[node name="LeftHandIK" type="SkeletonIK3D" parent="EscapepodMesh/Player/Armature/Skeleton3D" index="4"]
+root_bone = &"upper_arm.l"
+tip_bone = &"hand.l"
+use_magnet = true
+magnet = Vector3(0, -0.1, -0.48)
+target_node = NodePath("../../../../LeftHandMarker")
+script = ExtResource("4_4b75m")
+
+[node name="RightHandIK" type="SkeletonIK3D" parent="EscapepodMesh/Player/Armature/Skeleton3D" index="5"]
+root_bone = &"upper_arm.r"
+tip_bone = &"hand.r"
+target_node = NodePath("../../../../RightHandMarker")
+script = ExtResource("4_4b75m")
+
+[node name="HeadAttachment" type="BoneAttachment3D" parent="EscapepodMesh/Player/Armature/Skeleton3D" index="6"]
+transform = Transform3D(1, -7.00344e-08, 6.28955e-08, 9.35676e-08, 0.812553, -0.582888, -1.02837e-08, 0.582888, 0.812553, -2.67427e-08, 1.47281, 0.276469)
+bone_name = "head"
+bone_idx = 5
+
+[node name="RemoteHead" type="RemoteTransform3D" parent="EscapepodMesh/Player/Armature/Skeleton3D/HeadAttachment"]
+remote_path = NodePath("../../../../../PlayerSizeReference/Head")
+update_rotation = false
+update_scale = false
+
+[node name="AnimationPlayer" parent="EscapepodMesh/Player" index="1"]
+autoplay = "lying"
+
 [node name="PlayerSizeReference" type="CharacterBody3D" parent="EscapepodMesh"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.553955, 1.47068)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="EscapepodMesh/PlayerSizeReference"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.494186, 0)
-shape = SubResource("CapsuleShape3D_x4av3")
+[node name="Head" type="Node3D" parent="EscapepodMesh/PlayerSizeReference"]
+transform = Transform3D(-1.25, 1.8499e-07, -1.00326e-06, 8.2375e-07, 0.908199, -0.85888, 6.0182e-07, -0.85888, -0.908199, -6.08337e-08, 2.33285, -0.826926)
 
-[node name="Camera3D" type="Camera3D" parent="EscapepodMesh/PlayerSizeReference"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0837, 0)
+[node name="Camera3D" type="Camera3D" parent="EscapepodMesh/PlayerSizeReference/Head" node_paths=PackedStringArray("Player", "radarBeepSnd", "podObj")]
+transform = Transform3D(-0.8, 1.10419e-06, 5.32896e-07, 7.73739e-07, 0.72441, -0.339455, -9.51072e-07, -0.339455, -0.72441, 1.90604e-07, -0.00793678, 0.00242758)
 script = ExtResource("2_q68mp")
+Player = NodePath("../..")
+radarBeepSnd = NodePath("RadarBeep")
+podObj = NodePath("../../..")
 
-[node name="RadarBeep" type="AudioStreamPlayer3D" parent="EscapepodMesh/PlayerSizeReference/Camera3D"]
+[node name="RadarBeep" type="AudioStreamPlayer3D" parent="EscapepodMesh/PlayerSizeReference/Head/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.0837, 0)
 stream = ExtResource("3_f140w")
 volume_db = -13.0
 max_polyphony = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EscapepodMesh/PlayerSizeReference"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.494186, 0)
+shape = SubResource("CapsuleShape3D_x4av3")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="EscapepodMesh/PlayerSizeReference"]
 
@@ -228,108 +321,6 @@ shape = SubResource("BoxShape3D_torvr")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.51947, 1.47339, 0.132568)
 shape = SubResource("BoxShape3D_8xkvn")
 
-[node name="PilotV2" parent="EscapepodMesh" instance=ExtResource("6_q68mp")]
-transform = Transform3D(-1.25, -5.50056e-09, 1.88665e-07, 4.44089e-16, 1.24947, 0.0364286, -1.88745e-07, 0.0364286, -1.24947, 1.4219e-07, 0.0128613, 0.375351)
-
-[node name="Skeleton3D" parent="EscapepodMesh/PilotV2/Armature" index="0"]
-bones/1/position = Vector3(-0.044745, 0.434526, -0.300613)
-bones/1/rotation = Quaternion(0.881797, -0.0227704, -0.0719823, 0.465547)
-bones/2/rotation = Quaternion(-0.132147, -1.36296e-07, -2.83477e-08, 0.99123)
-bones/3/rotation = Quaternion(-0.271835, -1.31213e-07, -1.26729e-08, 0.962344)
-bones/4/rotation = Quaternion(-0.215864, 6.45034e-09, 1.04323e-07, 0.976423)
-bones/5/rotation = Quaternion(-0.442348, -0.0236803, 0.0716882, 0.89366)
-bones/6/rotation = Quaternion(0.0182801, 0.0728795, -0.544802, 0.835192)
-bones/7/rotation = Quaternion(0.633781, -0.472555, -0.181962, 0.584724)
-bones/8/rotation = Quaternion(0.395748, -0.00311608, -0.0200759, 0.918135)
-bones/9/rotation = Quaternion(0.215685, -0.17034, -0.384967, 0.881059)
-bones/10/rotation = Quaternion(-0.420955, -0.529357, -0.327843, 0.659619)
-bones/11/rotation = Quaternion(-0.500215, 0.00405709, -0.0094528, 0.86584)
-bones/12/rotation = Quaternion(-0.488, -0.00765573, -0.00180433, 0.872808)
-bones/13/rotation = Quaternion(-0.430071, -0.628177, -0.303914, 0.572773)
-bones/14/rotation = Quaternion(-0.597287, -0.0228974, 0.00315837, 0.801695)
-bones/15/rotation = Quaternion(-0.55243, -0.0345211, 0.00300463, 0.832839)
-bones/16/rotation = Quaternion(-0.418507, -0.683653, -0.288648, 0.523597)
-bones/17/rotation = Quaternion(-0.597595, -0.0119135, 0.0103965, 0.801642)
-bones/18/rotation = Quaternion(-0.56291, -0.0313639, 0.0140351, 0.825803)
-bones/19/rotation = Quaternion(0.0774684, -0.0138053, -0.762325, 0.642393)
-bones/20/rotation = Quaternion(-0.474408, -0.0609348, 0.0290734, 0.877712)
-bones/21/rotation = Quaternion(-0.34447, -0.00794731, 0.0200636, 0.938549)
-bones/22/rotation = Quaternion(0.0197765, -0.0716069, 0.553933, 0.82924)
-bones/23/rotation = Quaternion(0.577574, 0.496077, 0.38597, 0.520907)
-bones/24/rotation = Quaternion(0.666744, 0.00252685, 0.0338233, 0.744515)
-bones/25/rotation = Quaternion(0.000749976, 0.192017, 0.341344, 0.920116)
-bones/26/rotation = Quaternion(-0.420955, 0.529357, 0.327843, 0.659619)
-bones/27/rotation = Quaternion(-0.500215, -0.00405709, 0.0094528, 0.86584)
-bones/28/rotation = Quaternion(-0.488, 0.00765573, 0.00180433, 0.872808)
-bones/29/rotation = Quaternion(-0.430071, 0.628177, 0.303914, 0.572773)
-bones/30/rotation = Quaternion(-0.597287, 0.0228974, -0.00315834, 0.801695)
-bones/31/rotation = Quaternion(-0.552429, 0.0345211, -0.00300464, 0.832839)
-bones/32/rotation = Quaternion(-0.418507, 0.683652, 0.288648, 0.523597)
-bones/33/rotation = Quaternion(-0.597595, 0.0119135, -0.0103966, 0.801642)
-bones/34/rotation = Quaternion(-0.56291, 0.0313639, -0.0140351, 0.825804)
-bones/35/rotation = Quaternion(0.0774684, 0.0138053, 0.762325, 0.642393)
-bones/36/rotation = Quaternion(-0.474408, 0.0609348, -0.0290734, 0.877712)
-bones/37/rotation = Quaternion(-0.34447, 0.0079473, -0.0200636, 0.938549)
-bones/38/position = Vector3(0.0515338, 0.124986, 0.0646816)
-bones/38/rotation = Quaternion(0.729016, 0.090858, -0.0482449, 0.676722)
-bones/40/position = Vector3(-0.0519173, 0.125012, 0.06738)
-bones/40/rotation = Quaternion(0.730813, -0.0726161, 0.0282969, 0.678114)
-bones/42/rotation = Quaternion(0.242571, 0.697936, 0.627916, -0.244472)
-bones/43/rotation = Quaternion(-0.67407, 0.000114189, -0.0214618, 0.738355)
-bones/44/rotation = Quaternion(0.409176, 0.232364, -0.117623, 0.874498)
-bones/45/rotation = Quaternion(0.308706, 3.94211e-08, 0.00051233, 0.951157)
-bones/45/scale = Vector3(0.999995, 1.00001, 1.00002)
-bones/46/position = Vector3(0.102469, -0.0680993, 0.0237439)
-bones/46/rotation = Quaternion(-0.227798, 0.0288905, 0.131915, 0.964299)
-bones/47/rotation = Quaternion(-0.0517619, 0.72299, 0.683759, 0.0841435)
-bones/48/rotation = Quaternion(-0.666538, -0.000115169, 0.0212221, 0.745169)
-bones/49/rotation = Quaternion(0.428615, -0.114333, 0.105517, 0.889991)
-bones/50/rotation = Quaternion(0.308706, -4.0236e-08, -0.000512329, 0.951157)
-bones/50/scale = Vector3(0.999995, 1.00001, 1.00002)
-bones/51/position = Vector3(-0.102469, -0.0680995, 0.023744)
-bones/51/rotation = Quaternion(-0.227798, -0.0288904, -0.131914, 0.964299)
-bones/52/rotation = Quaternion(-0.92721, -0.235683, -0.0168534, 0.290605)
-bones/53/rotation = Quaternion(0.00812911, -0.176643, -0.314204, 0.932742)
-bones/54/rotation = Quaternion(0.00274216, -0.176828, -0.282751, 0.942749)
-bones/55/rotation = Quaternion(-0.0178373, -0.163568, -0.256909, 0.952326)
-bones/56/position = Vector3(0.409804, 0.204353, 0.0558042)
-bones/57/position = Vector3(0.0786202, 0.0903847, 0.429686)
-bones/57/rotation = Quaternion(0.341138, -0.296775, -0.659682, 0.600308)
-bones/58/position = Vector3(1.01869e-08, 0.351905, 0.201357)
-bones/59/position = Vector3(0.0761072, 0.0314616, 0.306184)
-bones/60/position = Vector3(0.31713, 0.182993, -0.849228)
-bones/60/rotation = Quaternion(-0.099756, 9.93934e-17, -9.93934e-17, 0.995012)
-bones/61/position = Vector3(-0.383613, 0.2347, 0.0637579)
-bones/62/position = Vector3(-0.0751356, 0.196622, 0.424457)
-bones/62/rotation = Quaternion(-0.318536, -0.276215, -0.670887, -0.610041)
-bones/63/position = Vector3(-0.104613, 0.0360366, 0.305467)
-bones/63/rotation = Quaternion(-0.00391151, 0.707096, 0.707096, -0.00391151)
-bones/64/position = Vector3(-0.348885, 0.182993, -0.849228)
-bones/64/rotation = Quaternion(-0.099756, -9.93934e-17, 9.93934e-17, 0.995012)
-bones/65/position = Vector3(0, 0.63639, -0.0868962)
-bones/65/rotation = Quaternion(-0.502937, 0.497045, 0.502938, -0.497045)
-
-[node name="Badge" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="0"]
-surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
-
-[node name="Body" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="1"]
-surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
-
-[node name="Ears" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="2"]
-surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
-
-[node name="FaceDetail" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="3"]
-surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
-
-[node name="Head" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="4"]
-surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
-
-[node name="Tail" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="5"]
-surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
-
-[node name="AnimationPlayer" parent="EscapepodMesh/PilotV2" index="1"]
-autoplay = "prone"
-
 [node name="MineTest2" type="Node3D" parent="." groups=["MineObj"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 32.6526, 0)
 script = ExtResource("6_8ju71")
@@ -346,6 +337,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.357544, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.219616, 0)
 shape = SubResource("SphereShape3D_uxrcv")
 
-[connection signal="area_shape_entered" from="EscapepodMesh/MineHurtBox" to="EscapepodMesh/PlayerSizeReference/Camera3D" method="_on_mine_hurt_box_area_shape_entered"]
+[connection signal="area_shape_entered" from="EscapepodMesh/MineHurtBox" to="EscapepodMesh/PlayerSizeReference/Head/Camera3D" method="_on_mine_hurt_box_area_shape_entered"]
 
 [editable path="EscapepodMesh/PilotV2"]
+[editable path="EscapepodMesh/Player"]
