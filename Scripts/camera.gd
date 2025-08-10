@@ -58,7 +58,7 @@ func _input (event) -> void:
 		Player.set_rotation (LeftRightRot (event.relative.x / -CAM_TURN_SPEED))
 		self.set_rotation (UpDownRot (event.relative.y / -CAM_TURN_SPEED))
 	
-	print (global_position)
+	#print (global_position)
 	
 func UpDownRot (newRotation : float) -> Vector3:
 	var tempRot = self.get_rotation() + Vector3 (newRotation, 0, 0)
