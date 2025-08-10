@@ -13,22 +13,25 @@ const RAY_LENGTH : float 						= 20.0
 
 var radarTimer : Timer
 var moveDirection : Vector3 					= Vector3.ZERO
+var closeMineTemp : float						= 0.0
 
 func _ready() -> void:
 	Input.set_mouse_mode (Input.MOUSE_MODE_HIDDEN)
 	Input.set_mouse_mode (Input.MOUSE_MODE_CAPTURED)
 	radarTimer = Timer.new()
 	radarTimer.one_shot = true
-	radarTimer.timeout.connect(_on_radar_timer_finished)
+	radarTimer.timeout.connect (_on_radar_timer_finished)
 	add_child (radarTimer)
-	FindMineRange()
+	BeepMineRange()
 	set_process_input (true)
 
 func _physics_process (delta : float) -> void:
 	MovePod (delta, moveDirection)
 			
 func MovePod (delta, direction : Vector3) -> void:
-	podObj.global_translate (direction * POD_SPEED * delta)
+	if podObj.global_position.x < 34.0 and podObj.global_position.z < 34.0 and \
+	   podObj.global_position.x > -34.0 and podObj.global_position.z > -34.0:
+		podObj.global_translate (direction * POD_SPEED * delta)
 	
 func _input (event) -> void:
 	moveDirection = Vector3.ZERO
@@ -69,35 +72,35 @@ func UpDownRot (newRotation : float) -> Vector3:
 func LeftRightRot (newRotation : float) -> Vector3:
 	return Player.get_rotation() + Vector3 (0, newRotation, 0)
 	
-func FindMineRange () -> void:
-	var nearestMine = get_tree().get_nodes_in_group ("MineObj")
-	#this should actually try to find the nearest mine to the player, dunno how it would handle multiple of them
-	#right now it just gets whatever is first in the group which is undeterminable what the first one is based on distance
+func BeepMineRange () -> void:
+	var minesList = get_tree().get_nodes_in_group ("MineObj")
 	
-	if nearestMine.is_empty():
+	if minesList.is_empty():
 		ResetRadarTimer (MAX_RADAR_DISTANCE)
 		return
 
-	var curDistance = global_position.distance_to (nearestMine[0].global_position)
+	var closestDistance = INF
 	
-	if curDistance > MAX_RADAR_DISTANCE:
+	for mine in minesList:
+		var curDistance = global_position.distance_to (mine.global_position)
+		
+		if curDistance < closestDistance:
+			closestDistance = curDistance
+			print(mine.global_position)		
+	closeMineTemp = closestDistance
+		
+	if closeMineTemp > MAX_RADAR_DISTANCE:
 		ResetRadarTimer (MAX_RADAR_DISTANCE)
 		return  
-<<<<<<< Updated upstream
-
-	var temp = curDistance / MAX_RADAR_DISTANCE
-	var delay = lerp (MIN_PULSE,MAX_PULSE, temp)
-	#radarBeepSnd.play()
-=======
 		
 	var temp = closeMineTemp / MAX_RADAR_DISTANCE
 	var delay = lerp (MIN_PULSE, MAX_PULSE, temp)
 	if Global.radar_beeps_enabled: radarBeepSnd.play()
->>>>>>> Stashed changes
+	
 	ResetRadarTimer (delay)
 
 func _on_radar_timer_finished():
-	FindMineRange()
+	BeepMineRange()
 
 func ResetRadarTimer (x : float) -> void:
 	radarTimer.wait_time = x
