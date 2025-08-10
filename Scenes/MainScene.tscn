@@ -1,0 +1,257 @@
+[gd_scene load_steps=18 format=3 uid="uid://bi67ox6a65cji"]
+
+[ext_resource type="Script" uid="uid://bcjxol23ehnd0" path="res://Scripts/label.gd" id="1_y4jh7"]
+[ext_resource type="Script" uid="uid://bpe0d1qxhxvai" path="res://Scripts/camera.gd" id="2_q68mp"]
+[ext_resource type="AudioStream" uid="uid://bwqdo3qkbjhyn" path="res://Sounds/radar.wav" id="3_f140w"]
+[ext_resource type="Texture2D" uid="uid://bdrhcrtilnusg" path="res://Sprites/cursor.png" id="4_0iob3"]
+[ext_resource type="AudioStream" uid="uid://cf7t5lr8a1yy0" path="res://Sounds/podidlesound.wav" id="5_4b75m"]
+[ext_resource type="Script" uid="uid://bxm3hdlgogvpq" path="res://Scripts/mine.gd" id="6_8ju71"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_x4av3"]
+viewport_path = NodePath("EscapepodMesh/CSGBox3D7/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x4av3"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_x4av3")
+metallic_specular = 0.0
+emission_enabled = true
+
+[sub_resource type="LabelSettings" id="LabelSettings_x4av3"]
+font_size = 30
+font_color = Color(0.305882, 1, 0, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_x4av3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a814b"]
+size = Vector3(0.171326, 0.196838, 0.144817)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5crlr"]
+size = Vector3(0.11084, 0.159912, 0.166679)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hbc2u"]
+size = Vector3(0.13678, 0.204346, 0.139709)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_torvr"]
+size = Vector3(0.238342, 0.211517, 0.171326)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8xkvn"]
+size = Vector3(4.922, 3.94678, 7.69678)
+
+[sub_resource type="SphereMesh" id="SphereMesh_rpqi1"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_uxrcv"]
+radius = 2.71227
+
+[node name="World" type="Node3D"]
+
+[node name="EscapepodMesh" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="EscapepodMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.695755, -0.0592836, 0.104918)
+size = Vector3(3.45715, 0.117188, 6.0237)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="EscapepodMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250908, 1.34776, -0.894039)
+size = Vector3(2.59377, 2.70227, 0.260876)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="EscapepodMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.241898, 1.7401, 2.984)
+size = Vector3(2.61098, 3.53822, 0.260876)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="EscapepodMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.647, 1.76667, 0.109)
+size = Vector3(0.214142, 3.51251, 6.00871)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="EscapepodMesh"]
+transform = Transform3D(0.932305, 0.361673, 0, -0.361673, 0.932305, 0, 0, 0, 1, -1.46277, 1.85795, 2.10107)
+size = Vector3(0.214142, 0.635563, 0.707059)
+material = SubResource("StandardMaterial3D_x4av3")
+
+[node name="SubViewport" type="SubViewport" parent="EscapepodMesh/CSGBox3D7"]
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="Label" type="Label" parent="EscapepodMesh/CSGBox3D7/SubViewport"]
+offset_right = 154.0
+offset_bottom = 23.0
+text = "Depth: 9999"
+label_settings = SubResource("LabelSettings_x4av3")
+script = ExtResource("1_y4jh7")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="EscapepodMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.909722, 1.75608, 0.109)
+size = Vector3(0.214142, 3.5188, 6.00871)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="EscapepodMesh"]
+transform = Transform3D(0.0102973, -0.999947, 6.04242e-10, 0.97641, 0.0100549, 0.21569, -0.215678, -0.00222103, 0.976462, -0.282723, 2.21857, 0.083265)
+size = Vector3(0.214142, 2.82428, 6.44458)
+
+[node name="PlayerSizeReference" type="CharacterBody3D" parent="EscapepodMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.576195, 0.416966, 2.13883)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EscapepodMesh/PlayerSizeReference"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.494186, 0)
+shape = SubResource("CapsuleShape3D_x4av3")
+
+[node name="Camera3D" type="Camera3D" parent="EscapepodMesh/PlayerSizeReference"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0837, 0)
+fov = 90.0
+script = ExtResource("2_q68mp")
+
+[node name="RadarBeep" type="AudioStreamPlayer3D" parent="EscapepodMesh/PlayerSizeReference/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.0837, 0)
+stream = ExtResource("3_f140w")
+volume_db = -13.0
+max_polyphony = 3
+
+[node name="CanvasLayer" type="CanvasLayer" parent="EscapepodMesh/PlayerSizeReference"]
+
+[node name="Cursor" type="TextureRect" parent="EscapepodMesh/PlayerSizeReference/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_0iob3")
+
+[node name="BackgroundIdleSnd" type="AudioStreamPlayer3D" parent="EscapepodMesh/PlayerSizeReference"]
+stream = ExtResource("5_4b75m")
+volume_db = -12.157
+autoplay = true
+max_polyphony = 3
+
+[node name="OmniLight3D" type="OmniLight3D" parent="EscapepodMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.887176, 1.96764, 2.07329)
+light_color = Color(0.619608, 1, 0.411765, 1)
+light_energy = 0.4
+shadow_enabled = true
+
+[node name="ButtonUp" type="Node3D" parent="EscapepodMesh"]
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="EscapepodMesh/ButtonUp"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.57224, 1.39526, 2.02048)
+use_collision = true
+size = Vector3(0.214142, 0.169594, 0.0492986)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="EscapepodMesh/ButtonUp"]
+transform = Transform3D(1, 0, 0, 0, 0.805194, 0.593011, 0, -0.593011, 0.805194, -1.57224, 1.45861, 2.04085)
+use_collision = true
+size = Vector3(0.214142, 0.120564, 0.0492986)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="EscapepodMesh/ButtonUp"]
+transform = Transform3D(1, 0, 0, 0, 0.790262, -0.612769, 0, 0.612769, 0.790262, -1.57224, 1.44965, 1.98755)
+use_collision = true
+size = Vector3(0.214142, 0.0983067, 0.0492986)
+
+[node name="Area3D" type="Area3D" parent="EscapepodMesh/ButtonUp" groups=["Up"]]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EscapepodMesh/ButtonUp/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.51931, 1.41697, 2.01809)
+shape = SubResource("BoxShape3D_a814b")
+
+[node name="ButtonDown" type="Node3D" parent="EscapepodMesh"]
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="EscapepodMesh/ButtonDown"]
+transform = Transform3D(1, 0, 0, 0, -0.999836, -0.018098, 0, 0.018098, -0.999836, -1.57224, 1.15218, 2.0114)
+use_collision = true
+size = Vector3(0.214142, 0.169594, 0.0492986)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="EscapepodMesh/ButtonDown"]
+transform = Transform3D(0.99984, 0.0142095, 0.0108671, 0.0178887, -0.794203, -0.607389, 0, 0.607487, -0.79433, -1.57224, 1.08847, 1.99218)
+use_collision = true
+size = Vector3(0.214142, 0.120564, 0.0492986)
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="EscapepodMesh/ButtonDown"]
+transform = Transform3D(1, 0, 0, 0, -0.801223, 0.598366, 0, -0.598366, -0.801223, -1.57224, 1.0984, 2.04531)
+use_collision = true
+size = Vector3(0.214142, 0.0983067, 0.0492986)
+
+[node name="Area3D" type="Area3D" parent="EscapepodMesh/ButtonDown" groups=["Down"]]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EscapepodMesh/ButtonDown/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4784, 1.12697, 2.01738)
+shape = SubResource("BoxShape3D_5crlr")
+
+[node name="ButtonLeft" type="Node3D" parent="EscapepodMesh"]
+transform = Transform3D(1, 0, 0, 0, 0.0447005, 0.999, 0, -0.999, 0.0447005, 0, -0.788337, 3.22131)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="EscapepodMesh/ButtonLeft"]
+transform = Transform3D(1, 0, 0, 0, -0.999836, -0.018098, 0, 0.018098, -0.999836, -1.57224, 1.15218, 2.0114)
+use_collision = true
+size = Vector3(0.214142, 0.169594, 0.0492986)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="EscapepodMesh/ButtonLeft"]
+transform = Transform3D(0.99984, 0.0142095, 0.0108671, 0.0178887, -0.794203, -0.607389, 0, 0.607487, -0.79433, -1.57224, 1.08847, 1.99218)
+use_collision = true
+size = Vector3(0.214142, 0.120564, 0.0492986)
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="EscapepodMesh/ButtonLeft"]
+transform = Transform3D(1, 0, 0, 0, -0.801223, 0.598366, 0, -0.598366, -0.801223, -1.57224, 1.0984, 2.04531)
+use_collision = true
+size = Vector3(0.214142, 0.0983067, 0.0492986)
+
+[node name="Area3D" type="Area3D" parent="EscapepodMesh/ButtonLeft" groups=["Left"]]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EscapepodMesh/ButtonLeft/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52237, 1.1219, 2.00408)
+shape = SubResource("BoxShape3D_hbc2u")
+
+[node name="ButtonRight" type="Node3D" parent="EscapepodMesh"]
+transform = Transform3D(1, 0, 0, 0, 0.010175, -0.999948, 0, 0.999948, 0.010175, 0, 3.26568, 0.694783)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="EscapepodMesh/ButtonRight"]
+transform = Transform3D(1, 0, 0, 0, -0.999836, -0.018098, 0, 0.018098, -0.999836, -1.57224, 1.15218, 2.0114)
+use_collision = true
+size = Vector3(0.214142, 0.169594, 0.0492986)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="EscapepodMesh/ButtonRight"]
+transform = Transform3D(0.99984, 0.0142095, 0.0108671, 0.0178887, -0.794203, -0.607389, 0, 0.607487, -0.79433, -1.57224, 1.08847, 1.99218)
+use_collision = true
+size = Vector3(0.214142, 0.120564, 0.0492986)
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="EscapepodMesh/ButtonRight"]
+transform = Transform3D(1, 0, 0, 0, -0.801223, 0.598366, 0, -0.598366, -0.801223, -1.57224, 1.0984, 2.04531)
+use_collision = true
+size = Vector3(0.214142, 0.0983067, 0.0492986)
+
+[node name="Area3D" type="Area3D" parent="EscapepodMesh/ButtonRight" groups=["Right"]]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EscapepodMesh/ButtonRight/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5784, 1.12408, 2.01652)
+shape = SubResource("BoxShape3D_torvr")
+
+[node name="MineHurtBox" type="Area3D" parent="EscapepodMesh"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EscapepodMesh/MineHurtBox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.51947, 1.47339, 0.132568)
+shape = SubResource("BoxShape3D_8xkvn")
+
+[node name="MineTest2" type="Node3D" parent="." groups=["MineObj"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 32.6526, 0)
+script = ExtResource("6_8ju71")
+
+[node name="MineMesh" type="MeshInstance3D" parent="MineTest2"]
+transform = Transform3D(4.45896, 0, 0, 0, 4.74957, 0, 0, 0, 5.81016, 0, 0.0442162, 0)
+mesh = SubResource("SphereMesh_rpqi1")
+skeleton = NodePath("")
+
+[node name="Area3D" type="Area3D" parent="MineTest2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.357544, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MineTest2/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.219616, 0)
+shape = SubResource("SphereShape3D_uxrcv")
+
+[connection signal="area_shape_entered" from="EscapepodMesh/MineHurtBox" to="EscapepodMesh/PlayerSizeReference/Camera3D" method="_on_mine_hurt_box_area_shape_entered"]
