@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://mwj1qdw7y8b8"]
+[gd_scene load_steps=6 format=3 uid="uid://mwj1qdw7y8b8"]
 
+[ext_resource type="Script" uid="uid://c36lurlyua5wt" path="res://Scenes/shuttle_status_panel.gd" id="1_4aqjd"]
 [ext_resource type="Script" uid="uid://bcjxol23ehnd0" path="res://Scripts/label.gd" id="1_h2hr6"]
 [ext_resource type="FontFile" uid="uid://cbpoc3q11lwxb" path="res://assets/Audiowide-Regular.ttf" id="1_r18mb"]
 
@@ -9,12 +10,14 @@ font_color = Color(0, 1, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r18mb"]
 
-[node name="ShuttleStatusPanel" type="ColorRect"]
+[node name="ShuttleStatusPanel" type="ColorRect" node_paths=PackedStringArray("corners")]
 offset_right = 320.0
 offset_bottom = 256.0
 color = Color(0, 0, 0, 1)
+script = ExtResource("1_4aqjd")
+corners = NodePath("MarginContainer/Cornurs")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,38 +25,104 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "-|-- Shuttle Diagnostic --|-"
 label_settings = SubResource("LabelSettings_x4av3")
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 5
 theme_override_styles/separator = SubResource("StyleBoxFlat_r18mb")
 
-[node name="DepthLabel" type="Label" parent="VBoxContainer"]
+[node name="DepthLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Depth: 9999"
 label_settings = SubResource("LabelSettings_x4av3")
 horizontal_alignment = 1
 script = ExtResource("1_h2hr6")
 
-[node name="FuelLabel" type="Label" parent="VBoxContainer"]
+[node name="FuelLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Fuel: 100%"
 label_settings = SubResource("LabelSettings_x4av3")
 horizontal_alignment = 1
 
-[node name="HullLabel" type="Label" parent="VBoxContainer"]
+[node name="HullLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Hull Integrity: 100%"
 label_settings = SubResource("LabelSettings_x4av3")
 horizontal_alignment = 1
 
-[node name="OxygenLabel" type="Label" parent="VBoxContainer"]
+[node name="OxygenLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Oxygen: 100%"
 label_settings = SubResource("LabelSettings_x4av3")
 horizontal_alignment = 1
+
+[node name="Cornurs" type="Control" parent="MarginContainer"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/Cornurs"]
+layout_mode = 1
+offset_left = 21.0
+offset_top = 3.0
+offset_right = 33.0
+offset_bottom = 24.0
+rotation = 1.57079
+text = "L"
+label_settings = SubResource("LabelSettings_x4av3")
+
+[node name="Label2" type="Label" parent="MarginContainer/Cornurs"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -22.0
+offset_top = 3.0
+offset_right = -10.0
+offset_bottom = 24.0
+grow_horizontal = 0
+rotation = 1.57079
+scale = Vector2(1, -0.999995)
+text = "L"
+label_settings = SubResource("LabelSettings_x4av3")
+
+[node name="Label3" type="Label" parent="MarginContainer/Cornurs"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 22.0
+offset_top = -2.0
+offset_right = 34.0
+offset_bottom = 19.0
+grow_vertical = 0
+rotation = 1.57079
+scale = Vector2(-1, 1)
+text = "L"
+label_settings = SubResource("LabelSettings_x4av3")
+
+[node name="Label4" type="Label" parent="MarginContainer/Cornurs"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -23.0
+offset_top = -3.0
+offset_right = -11.0
+offset_bottom = 18.0
+grow_horizontal = 0
+grow_vertical = 0
+rotation = 1.57079
+scale = Vector2(-1, -0.999995)
+text = "L"
+label_settings = SubResource("LabelSettings_x4av3")

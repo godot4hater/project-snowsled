@@ -54,7 +54,7 @@ func _input (event) -> void:
 			elif res.collider.is_in_group ("Down"):
 				moveDirection = Vector3.BACK
 			
-	if event is InputEventMouseMotion:		
+	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:		
 		Player.set_rotation (LeftRightRot (event.relative.x / -CAM_TURN_SPEED))
 		self.set_rotation (UpDownRot (event.relative.y / -CAM_TURN_SPEED))
 	
@@ -83,10 +83,17 @@ func FindMineRange () -> void:
 	if curDistance > MAX_RADAR_DISTANCE:
 		ResetRadarTimer (MAX_RADAR_DISTANCE)
 		return  
+<<<<<<< Updated upstream
 
 	var temp = curDistance / MAX_RADAR_DISTANCE
 	var delay = lerp (MIN_PULSE,MAX_PULSE, temp)
 	#radarBeepSnd.play()
+=======
+		
+	var temp = closeMineTemp / MAX_RADAR_DISTANCE
+	var delay = lerp (MIN_PULSE, MAX_PULSE, temp)
+	if Global.radar_beeps_enabled: radarBeepSnd.play()
+>>>>>>> Stashed changes
 	ResetRadarTimer (delay)
 
 func _on_radar_timer_finished():
