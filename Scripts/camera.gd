@@ -86,7 +86,7 @@ func FindMineRange () -> void:
 
 	var temp = curDistance / MAX_RADAR_DISTANCE
 	var delay = lerp (MIN_PULSE,MAX_PULSE, temp)
-	radarBeepSnd.play()
+	#radarBeepSnd.play()
 	ResetRadarTimer (delay)
 
 func _on_radar_timer_finished():
@@ -98,4 +98,5 @@ func ResetRadarTimer (x : float) -> void:
 
 func _on_mine_hurt_box_area_shape_entered(_area_rid: RID, area: Area3D, _area_shape_index: int, _local_shape_index: int) -> void:
 	if area.get_parent().is_in_group ("MineObj"):
-		get_tree().quit()
+		print("you lkost ")
+		#get_tree().quit()
