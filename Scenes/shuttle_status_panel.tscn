@@ -1,0 +1,59 @@
+[gd_scene load_steps=5 format=3 uid="uid://cjbtdm75v076k"]
+
+[ext_resource type="Script" uid="uid://bcjxol23ehnd0" path="res://Scripts/label.gd" id="1_h2hr6"]
+[ext_resource type="FontFile" uid="uid://cbpoc3q11lwxb" path="res://assets/Audiowide-Regular.ttf" id="1_r18mb"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_x4av3"]
+font = ExtResource("1_r18mb")
+font_color = Color(0, 1, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r18mb"]
+
+[node name="ShuttleStatusPanel" type="ColorRect"]
+offset_right = 320.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "-|-- Shuttle Diagnostic --|-"
+label_settings = SubResource("LabelSettings_x4av3")
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+theme_override_styles/separator = SubResource("StyleBoxFlat_r18mb")
+
+[node name="DepthLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Depth: 9999"
+label_settings = SubResource("LabelSettings_x4av3")
+horizontal_alignment = 1
+script = ExtResource("1_h2hr6")
+
+[node name="FuelLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Fuel: 100%"
+label_settings = SubResource("LabelSettings_x4av3")
+horizontal_alignment = 1
+
+[node name="HullLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Hull Integrity: 100%"
+label_settings = SubResource("LabelSettings_x4av3")
+horizontal_alignment = 1
+
+[node name="OxygenLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Oxygen: 100%"
+label_settings = SubResource("LabelSettings_x4av3")
+horizontal_alignment = 1

@@ -1,24 +1,26 @@
-[gd_scene load_steps=18 format=3 uid="uid://bi67ox6a65cji"]
+[gd_scene load_steps=19 format=3 uid="uid://bi67ox6a65cji"]
 
-[ext_resource type="Script" uid="uid://bcjxol23ehnd0" path="res://Scripts/label.gd" id="1_y4jh7"]
+[ext_resource type="PackedScene" uid="uid://cjbtdm75v076k" path="res://Scenes/shuttle_status_panel.tscn" id="1_q68mp"]
 [ext_resource type="Script" uid="uid://bpe0d1qxhxvai" path="res://Scripts/camera.gd" id="2_q68mp"]
 [ext_resource type="AudioStream" uid="uid://bwqdo3qkbjhyn" path="res://Sounds/radar.wav" id="3_f140w"]
 [ext_resource type="Texture2D" uid="uid://bdrhcrtilnusg" path="res://Sprites/cursor.png" id="4_0iob3"]
 [ext_resource type="AudioStream" uid="uid://cf7t5lr8a1yy0" path="res://Sounds/podidlesound.wav" id="5_4b75m"]
 [ext_resource type="Script" uid="uid://bxm3hdlgogvpq" path="res://Scripts/mine.gd" id="6_8ju71"]
+[ext_resource type="PackedScene" uid="uid://fhethyomc7m5" path="res://assets/blender/PilotV2.blend" id="6_q68mp"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_x4av3"]
-viewport_path = NodePath("EscapepodMesh/CSGBox3D7/SubViewport")
+viewport_path = NodePath("EscapepodMesh/DiagnosticPanel/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x4av3"]
 resource_local_to_scene = true
 albedo_texture = SubResource("ViewportTexture_x4av3")
 metallic_specular = 0.0
 emission_enabled = true
-
-[sub_resource type="LabelSettings" id="LabelSettings_x4av3"]
-font_size = 30
-font_color = Color(0.305882, 1, 0, 1)
+emission = Color(0, 1, 0, 1)
+emission_energy_multiplier = 9.5
+emission_operator = 1
+emission_texture = SubResource("ViewportTexture_x4av3")
+uv1_scale = Vector3(-1, 1, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_x4av3"]
 
@@ -37,6 +39,10 @@ size = Vector3(0.238342, 0.211517, 0.171326)
 [sub_resource type="BoxShape3D" id="BoxShape3D_8xkvn"]
 size = Vector3(4.922, 3.94678, 7.69678)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q68mp"]
+cull_mode = 2
+vertex_color_use_as_albedo = true
+
 [sub_resource type="SphereMesh" id="SphereMesh_rpqi1"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_uxrcv"]
@@ -47,47 +53,36 @@ radius = 2.71227
 [node name="EscapepodMesh" type="Node3D" parent="."]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="EscapepodMesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.695755, -0.0592836, 0.104918)
-size = Vector3(3.45715, 0.117188, 6.0237)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.557495, 0.907944)
+flip_faces = true
+size = Vector3(1.18335, 1.14526, 1.82108)
 
-[node name="CSGBox3D4" type="CSGBox3D" parent="EscapepodMesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250908, 1.34776, -0.894039)
-size = Vector3(2.59377, 2.70227, 0.260876)
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="EscapepodMesh/CSGBox3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.620275, 0, -0.71642)
+flip_faces = true
+polygon = PackedVector2Array(-1.20149, 0.497442, -1.12518, 0.792729, -0.498107, 0.789411, 1.66844, 0.553845, 1.64853, -0.156172, 0.198638, -0.574219)
+depth = 1.21
 
-[node name="CSGBox3D5" type="CSGBox3D" parent="EscapepodMesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.241898, 1.7401, 2.984)
-size = Vector3(2.61098, 3.53822, 0.260876)
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="EscapepodMesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.647, 1.76667, 0.109)
-size = Vector3(0.214142, 3.51251, 6.00871)
-
-[node name="CSGBox3D7" type="CSGBox3D" parent="EscapepodMesh"]
-transform = Transform3D(0.932305, 0.361673, 0, -0.361673, 0.932305, 0, 0, 0, 1, -1.46277, 1.85795, 2.10107)
-size = Vector3(0.214142, 0.635563, 0.707059)
+[node name="DiagnosticPanel" type="CSGBox3D" parent="EscapepodMesh"]
+transform = Transform3D(0.991996, -1.99434e-08, 0.126268, -0.126268, -4.33384e-08, 0.991996, 0, -1, -4.37114e-08, -0.534877, 0.858344, 1.45293)
+size = Vector3(0.0372468, 0.635563, 0.472182)
 material = SubResource("StandardMaterial3D_x4av3")
 
-[node name="SubViewport" type="SubViewport" parent="EscapepodMesh/CSGBox3D7"]
+[node name="SubViewport" type="SubViewport" parent="EscapepodMesh/DiagnosticPanel"]
 handle_input_locally = false
+size = Vector2i(320, 256)
 render_target_update_mode = 4
 
-[node name="Label" type="Label" parent="EscapepodMesh/CSGBox3D7/SubViewport"]
-offset_right = 154.0
-offset_bottom = 23.0
-text = "Depth: 9999"
-label_settings = SubResource("LabelSettings_x4av3")
-script = ExtResource("1_y4jh7")
+[node name="ShuttleStatusPanel" parent="EscapepodMesh/DiagnosticPanel/SubViewport" instance=ExtResource("1_q68mp")]
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="EscapepodMesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.909722, 1.75608, 0.109)
-size = Vector3(0.214142, 3.5188, 6.00871)
-
-[node name="CSGBox3D6" type="CSGBox3D" parent="EscapepodMesh"]
-transform = Transform3D(0.0102973, -0.999947, 6.04242e-10, 0.97641, 0.0100549, 0.21569, -0.215678, -0.00222103, 0.976462, -0.282723, 2.21857, 0.083265)
-size = Vector3(0.214142, 2.82428, 6.44458)
+[node name="OmniLight3D" type="OmniLight3D" parent="EscapepodMesh/DiagnosticPanel"]
+transform = Transform3D(0.932305, -0.361673, 4.47035e-08, 0.361673, 0.932305, -2.09565e-08, -1.33427e-08, 2.75278e-08, 1, 0.138979, -0.0209942, -0.0371203)
+light_color = Color(0.353333, 1, 0, 1)
+shadow_enabled = true
+omni_attenuation = 0.45
 
 [node name="PlayerSizeReference" type="CharacterBody3D" parent="EscapepodMesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.576195, 0.416966, 2.13883)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.553955, 1.47068)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="EscapepodMesh/PlayerSizeReference"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.494186, 0)
@@ -95,7 +90,6 @@ shape = SubResource("CapsuleShape3D_x4av3")
 
 [node name="Camera3D" type="Camera3D" parent="EscapepodMesh/PlayerSizeReference"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0837, 0)
-fov = 90.0
 script = ExtResource("2_q68mp")
 
 [node name="RadarBeep" type="AudioStreamPlayer3D" parent="EscapepodMesh/PlayerSizeReference/Camera3D"]
@@ -128,13 +122,8 @@ volume_db = -12.157
 autoplay = true
 max_polyphony = 3
 
-[node name="OmniLight3D" type="OmniLight3D" parent="EscapepodMesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.887176, 1.96764, 2.07329)
-light_color = Color(0.619608, 1, 0.411765, 1)
-light_energy = 0.4
-shadow_enabled = true
-
 [node name="ButtonUp" type="Node3D" parent="EscapepodMesh"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2.33935, -0.312264, 2.66959)
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="EscapepodMesh/ButtonUp"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.57224, 1.39526, 2.02048)
@@ -159,6 +148,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.51931, 1.41697, 2.01809)
 shape = SubResource("BoxShape3D_a814b")
 
 [node name="ButtonDown" type="Node3D" parent="EscapepodMesh"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2.33935, -0.312264, 2.66959)
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="EscapepodMesh/ButtonDown"]
 transform = Transform3D(1, 0, 0, 0, -0.999836, -0.018098, 0, 0.018098, -0.999836, -1.57224, 1.15218, 2.0114)
@@ -183,7 +173,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4784, 1.12697, 2.01738)
 shape = SubResource("BoxShape3D_5crlr")
 
 [node name="ButtonLeft" type="Node3D" parent="EscapepodMesh"]
-transform = Transform3D(1, 0, 0, 0, 0.0447005, 0.999, 0, -0.999, 0.0447005, 0, -0.788337, 3.22131)
+transform = Transform3D(-4.37114e-08, 0.999, -0.0447006, 0, 0.0447006, 0.999, 1, 4.36677e-08, -1.95392e-09, -0.881956, -1.1006, 2.66959)
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="EscapepodMesh/ButtonLeft"]
 transform = Transform3D(1, 0, 0, 0, -0.999836, -0.018098, 0, 0.018098, -0.999836, -1.57224, 1.15218, 2.0114)
@@ -208,7 +198,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52237, 1.1219, 2.00408)
 shape = SubResource("BoxShape3D_hbc2u")
 
 [node name="ButtonRight" type="Node3D" parent="EscapepodMesh"]
-transform = Transform3D(1, 0, 0, 0, 0.010175, -0.999948, 0, 0.999948, 0.010175, 0, 3.26568, 0.694783)
+transform = Transform3D(-4.37114e-08, -0.999948, -0.010172, 0, 0.010172, -0.999948, 1, -4.37091e-08, -4.44633e-10, 1.64457, 2.95342, 2.66959)
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="EscapepodMesh/ButtonRight"]
 transform = Transform3D(1, 0, 0, 0, -0.999836, -0.018098, 0, 0.018098, -0.999836, -1.57224, 1.15218, 2.0114)
@@ -238,6 +228,108 @@ shape = SubResource("BoxShape3D_torvr")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.51947, 1.47339, 0.132568)
 shape = SubResource("BoxShape3D_8xkvn")
 
+[node name="PilotV2" parent="EscapepodMesh" instance=ExtResource("6_q68mp")]
+transform = Transform3D(-1.25, -5.50056e-09, 1.88665e-07, 4.44089e-16, 1.24947, 0.0364286, -1.88745e-07, 0.0364286, -1.24947, 2.07585e-07, 0.0254881, -0.0577389)
+
+[node name="Skeleton3D" parent="EscapepodMesh/PilotV2/Armature" index="0"]
+bones/1/position = Vector3(-0.0428642, 0.415169, -0.309083)
+bones/1/rotation = Quaternion(0.864824, -0.0176473, -0.0655673, 0.497463)
+bones/2/rotation = Quaternion(-0.119706, -1.33748e-07, -2.65276e-08, 0.992809)
+bones/3/rotation = Quaternion(-0.24611, -1.30816e-07, -9.86946e-09, 0.969242)
+bones/4/rotation = Quaternion(-0.215864, 6.45034e-09, 1.04323e-07, 0.976423)
+bones/5/rotation = Quaternion(-0.445194, -0.021587, 0.0643786, 0.892856)
+bones/6/rotation = Quaternion(0.0182801, 0.0728795, -0.544802, 0.835192)
+bones/7/rotation = Quaternion(0.629673, -0.476218, -0.1901, 0.583601)
+bones/8/rotation = Quaternion(0.412719, -0.00309055, -0.0209368, 0.910613)
+bones/9/rotation = Quaternion(0.205893, -0.172215, -0.382875, 0.883944)
+bones/10/rotation = Quaternion(-0.420955, -0.529357, -0.327843, 0.659619)
+bones/11/rotation = Quaternion(-0.500215, 0.00405709, -0.0094528, 0.86584)
+bones/12/rotation = Quaternion(-0.488, -0.00765573, -0.00180433, 0.872808)
+bones/13/rotation = Quaternion(-0.430071, -0.628177, -0.303914, 0.572773)
+bones/14/rotation = Quaternion(-0.597287, -0.0228974, 0.00315837, 0.801695)
+bones/15/rotation = Quaternion(-0.55243, -0.0345211, 0.00300463, 0.832839)
+bones/16/rotation = Quaternion(-0.418507, -0.683653, -0.288648, 0.523597)
+bones/17/rotation = Quaternion(-0.597595, -0.0119135, 0.0103965, 0.801642)
+bones/18/rotation = Quaternion(-0.56291, -0.0313639, 0.0140351, 0.825803)
+bones/19/rotation = Quaternion(0.0774684, -0.0138053, -0.762325, 0.642393)
+bones/20/rotation = Quaternion(-0.474408, -0.0609348, 0.0290734, 0.877712)
+bones/21/rotation = Quaternion(-0.34447, -0.00794731, 0.0200636, 0.938549)
+bones/22/rotation = Quaternion(0.0197765, -0.0716069, 0.553933, 0.82924)
+bones/23/rotation = Quaternion(0.576598, 0.500932, 0.373227, 0.526596)
+bones/24/rotation = Quaternion(0.674589, 0.00250268, 0.0342212, 0.737396)
+bones/25/rotation = Quaternion(-0.00996213, 0.203459, 0.337421, 0.91905)
+bones/26/rotation = Quaternion(-0.420955, 0.529357, 0.327843, 0.659619)
+bones/27/rotation = Quaternion(-0.500215, -0.00405709, 0.0094528, 0.86584)
+bones/28/rotation = Quaternion(-0.488, 0.00765573, 0.00180433, 0.872808)
+bones/29/rotation = Quaternion(-0.430071, 0.628177, 0.303914, 0.572773)
+bones/30/rotation = Quaternion(-0.597287, 0.0228974, -0.00315834, 0.801695)
+bones/31/rotation = Quaternion(-0.552429, 0.0345211, -0.00300464, 0.832839)
+bones/32/rotation = Quaternion(-0.418507, 0.683652, 0.288648, 0.523597)
+bones/33/rotation = Quaternion(-0.597595, 0.0119135, -0.0103966, 0.801642)
+bones/34/rotation = Quaternion(-0.56291, 0.0313639, -0.0140351, 0.825804)
+bones/35/rotation = Quaternion(0.0774684, 0.0138053, 0.762325, 0.642393)
+bones/36/rotation = Quaternion(-0.474408, 0.0609348, -0.0290734, 0.877712)
+bones/37/rotation = Quaternion(-0.34447, 0.0079473, -0.0200636, 0.938549)
+bones/38/position = Vector3(0.0495059, 0.124793, 0.0810649)
+bones/38/rotation = Quaternion(0.731963, -0.0211864, 0.0713588, 0.677266)
+bones/40/position = Vector3(-0.0486868, 0.125251, 0.0508825)
+bones/40/rotation = Quaternion(0.718693, -0.183416, 0.1458, 0.654661)
+bones/42/rotation = Quaternion(0.239448, 0.672708, 0.654096, -0.249573)
+bones/43/rotation = Quaternion(-0.685711, 0.000112497, -0.0218324, 0.727546)
+bones/44/rotation = Quaternion(0.423727, 0.244865, -0.113721, 0.864618)
+bones/45/rotation = Quaternion(0.308706, 3.94211e-08, 0.00051233, 0.951157)
+bones/45/scale = Vector3(0.999995, 1.00001, 1.00002)
+bones/46/position = Vector3(0.102962, -0.0667445, 0.013709)
+bones/46/rotation = Quaternion(-0.18987, 0.0237037, 0.132945, 0.972478)
+bones/47/rotation = Quaternion(-0.0604977, 0.694114, 0.710591, 0.0980112)
+bones/48/rotation = Quaternion(-0.680247, -0.00011324, 0.0216586, 0.732663)
+bones/49/rotation = Quaternion(0.446885, -0.125322, 0.106313, 0.879366)
+bones/50/rotation = Quaternion(0.308706, -4.0236e-08, -0.000512329, 0.951157)
+bones/50/scale = Vector3(0.999995, 1.00001, 1.00002)
+bones/51/position = Vector3(-0.102962, -0.0667446, 0.0137091)
+bones/51/rotation = Quaternion(-0.18987, -0.0237036, -0.132944, 0.972478)
+bones/52/rotation = Quaternion(-0.938528, 0.216393, 0.0641246, 0.261205)
+bones/53/rotation = Quaternion(0.019115, -0.161903, -0.231191, 0.959152)
+bones/54/rotation = Quaternion(0.0300685, -0.148974, -0.206364, 0.966601)
+bones/55/rotation = Quaternion(0.0142794, -0.119608, -0.19, 0.974367)
+bones/56/position = Vector3(0.409804, 0.204353, 0.0558042)
+bones/57/position = Vector3(0.0786202, 0.0903847, 0.429686)
+bones/57/rotation = Quaternion(0.341138, -0.296775, -0.659682, 0.600308)
+bones/58/position = Vector3(-4.9307e-09, 0.347387, 0.201704)
+bones/59/position = Vector3(0.0761072, 0.0314616, 0.306184)
+bones/60/position = Vector3(0.31713, 0.182993, -0.849228)
+bones/60/rotation = Quaternion(-0.099756, 9.93934e-17, -9.93934e-17, 0.995012)
+bones/61/position = Vector3(-0.383613, 0.2347, 0.0637579)
+bones/62/position = Vector3(-0.0751356, 0.196622, 0.424457)
+bones/62/rotation = Quaternion(-0.318536, -0.276215, -0.670887, -0.610041)
+bones/63/position = Vector3(-0.0974805, 0.0358492, 0.305306)
+bones/63/rotation = Quaternion(-0.00391151, 0.707096, 0.707096, -0.00391151)
+bones/64/position = Vector3(-0.348885, 0.182993, -0.849228)
+bones/64/rotation = Quaternion(-0.099756, -9.93934e-17, 9.93934e-17, 0.995012)
+bones/65/position = Vector3(0, 0.63639, -0.0868962)
+bones/65/rotation = Quaternion(-0.502937, 0.497045, 0.502938, -0.497045)
+
+[node name="Badge" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
+
+[node name="Body" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
+
+[node name="Ears" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="2"]
+surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
+
+[node name="FaceDetail" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="3"]
+surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
+
+[node name="Head" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="4"]
+surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
+
+[node name="Tail" parent="EscapepodMesh/PilotV2/Armature/Skeleton3D" index="5"]
+surface_material_override/0 = SubResource("StandardMaterial3D_q68mp")
+
+[node name="AnimationPlayer" parent="EscapepodMesh/PilotV2" index="1"]
+autoplay = "prone"
+
 [node name="MineTest2" type="Node3D" parent="." groups=["MineObj"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 32.6526, 0)
 script = ExtResource("6_8ju71")
@@ -255,3 +347,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.219616, 0)
 shape = SubResource("SphereShape3D_uxrcv")
 
 [connection signal="area_shape_entered" from="EscapepodMesh/MineHurtBox" to="EscapepodMesh/PlayerSizeReference/Camera3D" method="_on_mine_hurt_box_area_shape_entered"]
+
+[editable path="EscapepodMesh/PilotV2"]
