@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cjbtdm75v076k"]
+[gd_scene load_steps=5 format=3 uid="uid://mwj1qdw7y8b8"]
 
 [ext_resource type="Script" uid="uid://bcjxol23ehnd0" path="res://Scripts/label.gd" id="1_h2hr6"]
 [ext_resource type="FontFile" uid="uid://cbpoc3q11lwxb" path="res://assets/Audiowide-Regular.ttf" id="1_r18mb"]
