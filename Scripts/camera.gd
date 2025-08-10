@@ -5,7 +5,7 @@ extends Camera3D
 @onready var podObj : Node3D					= get_parent().get_parent()
 
 const CAM_TURN_SPEED : float 					= 500.0
-const POD_SPEED : float							= 0.075
+const POD_SPEED : float							= 0.5
 const MAX_RADAR_DISTANCE : float 				= 25.0  
 const MIN_PULSE : float 						= 0.05
 const MAX_PULSE : float 						= 2.0    
@@ -13,22 +13,25 @@ const RAY_LENGTH : float 						= 20.0
 
 var radarTimer : Timer
 var moveDirection : Vector3 					= Vector3.ZERO
+var closeMineTemp : float						= 0.0
 
 func _ready() -> void:
 	Input.set_mouse_mode (Input.MOUSE_MODE_HIDDEN)
 	Input.set_mouse_mode (Input.MOUSE_MODE_CAPTURED)
 	radarTimer = Timer.new()
 	radarTimer.one_shot = true
-	radarTimer.timeout.connect(_on_radar_timer_finished)
+	radarTimer.timeout.connect (_on_radar_timer_finished)
 	add_child (radarTimer)
-	FindMineRange()
+	BeepMineRange()
 	set_process_input (true)
 
 func _physics_process (delta : float) -> void:
 	MovePod (delta, moveDirection)
-			
+
 func MovePod (delta, direction : Vector3) -> void:
-	podObj.global_translate (direction * POD_SPEED * delta)
+	if podObj.global_position.x < 34.0 and podObj.global_position.z < 34.0 and \
+	   podObj.global_position.x > -34.0 and podObj.global_position.z > -34.0:
+		podObj.global_translate (direction * POD_SPEED * delta)
 	
 func _input (event) -> void:
 	moveDirection = Vector3.ZERO
@@ -62,35 +65,41 @@ func _input (event) -> void:
 	
 func UpDownRot (newRotation : float) -> Vector3:
 	var tempRot = self.get_rotation() + Vector3 (newRotation, 0, 0)
-	tempRot.x = clamp(tempRot.x, PI / -2, PI / 2)
+	tempRot.x = clamp (tempRot.x, PI / -2, PI / 2)
 	
 	return tempRot
 
 func LeftRightRot (newRotation : float) -> Vector3:
 	return Player.get_rotation() + Vector3 (0, newRotation, 0)
 	
-func FindMineRange () -> void:
-	var nearestMine = get_tree().get_nodes_in_group ("MineObj")
-	#this should actually try to find the nearest mine to the player, dunno how it would handle multiple of them
-	#right now it just gets whatever is first in the group which is undeterminable what the first one is based on distance
+func BeepMineRange() -> void:
+	var minesList = get_tree().get_nodes_in_group ("MineObj")
 	
-	if nearestMine.is_empty():
+	if minesList.is_empty():
 		ResetRadarTimer (MAX_RADAR_DISTANCE)
 		return
 
-	var curDistance = global_position.distance_to (nearestMine[0].global_position)
+	var closestDistance = INF
 	
-	if curDistance > MAX_RADAR_DISTANCE:
+	for mine in minesList:
+		var curDistance = global_position.distance_to (mine.global_position)
+		
+		if curDistance < closestDistance:
+			closestDistance = curDistance
+			
+	closeMineTemp = closestDistance
+		
+	if closeMineTemp > MAX_RADAR_DISTANCE:
 		ResetRadarTimer (MAX_RADAR_DISTANCE)
 		return  
-
-	var temp = curDistance / MAX_RADAR_DISTANCE
-	var delay = lerp (MIN_PULSE,MAX_PULSE, temp)
-	#radarBeepSnd.play()
+		
+	var temp = closeMineTemp / MAX_RADAR_DISTANCE
+	var delay = lerp (MIN_PULSE, MAX_PULSE, temp)
+	radarBeepSnd.play()
 	ResetRadarTimer (delay)
 
-func _on_radar_timer_finished():
-	FindMineRange()
+func _on_radar_timer_finished() -> void:
+	BeepMineRange()
 
 func ResetRadarTimer (x : float) -> void:
 	radarTimer.wait_time = x
@@ -99,4 +108,4 @@ func ResetRadarTimer (x : float) -> void:
 func _on_mine_hurt_box_area_shape_entered(_area_rid: RID, area: Area3D, _area_shape_index: int, _local_shape_index: int) -> void:
 	if area.get_parent().is_in_group ("MineObj"):
 		print("you lkost ")
-		#get_tree().quit()
+		get_tree().quit()
