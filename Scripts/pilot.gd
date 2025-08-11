@@ -6,8 +6,9 @@ extends Node3D
 @export var anim_tree: AnimationTree
 
 func _ready() -> void:
-	$BlinkTimer.timeout.connect(blink)
-	$BlinkTimer.start()
+	pass
+	#$BlinkTimer.timeout.connect(blink)
+	#$BlinkTimer.start()
 
 func blink() -> void:
 	#print("blink")

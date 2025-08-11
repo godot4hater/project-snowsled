@@ -5,14 +5,13 @@ extends Camera3D
 @export var podObj : Node3D
 
 const CAM_TURN_SPEED : float 					= 500.0
-const POD_SPEED : float							= 0.075
 const MAX_RADAR_DISTANCE : float 				= 25.0  
 const MIN_PULSE : float 						= 0.05
 const MAX_PULSE : float 						= 2.0    
 const RAY_LENGTH : float 						= 20.0
 
 var radarTimer : Timer
-var moveDirection : Vector3 					= Vector3.ZERO
+
 var closeMineTemp : float						= 0.0
 
 func _ready() -> void:
@@ -25,17 +24,7 @@ func _ready() -> void:
 	BeepMineRange()
 	set_process_input (true)
 
-func _physics_process (delta : float) -> void:
-	MovePod (delta, moveDirection)
-			
-func MovePod (delta, direction : Vector3) -> void:
-	if podObj.global_position.x < 34.0 and podObj.global_position.z < 34.0 and \
-	   podObj.global_position.x > -34.0 and podObj.global_position.z > -34.0:
-		podObj.global_translate (direction * POD_SPEED * delta)
-	
 func _input (event) -> void:
-	moveDirection = Vector3.ZERO
-	
 	if Input.is_action_pressed ("E"):
 		var directSpaceState = get_world_3d().direct_space_state
 		var rayStart = global_position
@@ -48,20 +37,22 @@ func _input (event) -> void:
 		var res = directSpaceState.intersect_ray (temp)
 		
 		if res:
-			if res.collider.is_in_group ("Left"):
-				moveDirection = Vector3.LEFT
-			elif res.collider.is_in_group ("Right"):
-				moveDirection = Vector3.RIGHT
-			elif res.collider.is_in_group ("Up"):
-				moveDirection = Vector3.FORWARD
-			elif res.collider.is_in_group ("Down"):
-				moveDirection = Vector3.BACK
+			print (global_position)
+			
+			if res.collider.name == "LeftBtn":
+				podObj.moveDirection = Vector3.LEFT
+			elif res.collider.name == "RightBtn":
+				podObj.moveDirection = Vector3.RIGHT
+			elif res.collider.name == "ForBtn":
+				podObj.moveDirection = Vector3.FORWARD
+			elif res.collider.name == "BackBtn":
+				podObj.moveDirection = Vector3.BACK
+		else:
+			podObj.moveDirection = Vector3.ZERO
 			
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:		
 		Player.set_rotation (LeftRightRot (event.relative.x / -CAM_TURN_SPEED))
 		self.set_rotation (UpDownRot (event.relative.y / -CAM_TURN_SPEED))
-	
-	#print (global_position)
 	
 func UpDownRot (newRotation : float) -> Vector3:
 	var tempRot = self.get_rotation() + Vector3 (newRotation, 0, 0)
@@ -86,7 +77,7 @@ func BeepMineRange () -> void:
 		
 		if curDistance < closestDistance:
 			closestDistance = curDistance
-			print(mine.global_position)		
+			#print(mine.global_position)		
 	closeMineTemp = closestDistance
 		
 	if closeMineTemp > MAX_RADAR_DISTANCE:
