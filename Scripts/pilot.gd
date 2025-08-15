@@ -4,6 +4,7 @@ extends Node3D
 
 @export var head: MeshInstance3D
 @export var anim_tree: AnimationTree
+@export var pIK : SkeletonIK3D
 
 func _ready() -> void:
 	pass
@@ -33,6 +34,7 @@ func _on_player_thumbsed_up() -> void:
 	t.tween_property(head, "blend_shapes/JawOpen", 1.0, 0.25)
 	t.tween_interval(1.5)
 	t.tween_property(head, "blend_shapes/JawOpen", 0.0, 0.25)
-	
+	pIK.influence = 1.0
 	await t.finished
+	pIK.influence = 0.1
 	anim_tree["parameters/TorsoState/transition_request"] = "forward"

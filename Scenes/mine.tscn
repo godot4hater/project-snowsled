@@ -5,13 +5,13 @@
 [sub_resource type="SphereMesh" id="SphereMesh_rpqi1"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_uxrcv"]
-radius = 2.71227
+radius = 4.14862
 
 [node name="MineTest2" type="Node3D" groups=["MineObj"]]
 script = ExtResource("1_qoe3o")
 
 [node name="MineMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(4.45896, 0, 0, 0, 4.74957, 0, 0, 0, 5.81016, 0, 0.0442162, 0)
+transform = Transform3D(5.81812, 0, 0, 0, 5.08475, 0, 0, 0, 5.74105, 0, 0.0442162, 0)
 mesh = SubResource("SphereMesh_rpqi1")
 skeleton = NodePath("")
 
@@ -19,5 +19,5 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.357544, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.219616, 0)
+transform = Transform3D(0.763028, 0, 0, 0, 0.763028, 0, 0, 0, 0.763028, -0.19069, -0.3453, 0)
 shape = SubResource("SphereShape3D_uxrcv")

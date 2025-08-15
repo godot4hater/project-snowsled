@@ -2,21 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6v4atjvfa6ri"
-path.s3tc="res://.godot/imported/tile219.png-c82b3f3815188e9042d97283ec112523.s3tc.ctex"
+uid="uid://bkkrmt3ptnjl2"
+path="res://.godot/imported/test1.jpg-47dcacaeee6b07cb4af23f56ead3c111.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/tile219.png"
-dest_files=["res://.godot/imported/tile219.png-c82b3f3815188e9042d97283ec112523.s3tc.ctex"]
+source_file="res://assets/textures/test1.jpg"
+dest_files=["res://.godot/imported/test1.jpg-47dcacaeee6b07cb4af23f56ead3c111.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
