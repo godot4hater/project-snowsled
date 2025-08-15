@@ -7,8 +7,8 @@ extends Camera3D
 
 const CAM_TURN_SPEED : float 					= 500.0
 const MAX_RADAR_DISTANCE : float 				= 27.0  
-const MIN_PULSE : float 						= 0.05
-const MAX_PULSE : float 						= 2.5    
+const MIN_PULSE : float 						= 0.25
+const MAX_PULSE : float 						= 3.0    
 const RAY_LENGTH : float 						= 20.0
 const MAX_LOOK_SIDES_ANGLE : float				= 1.5
 const MAX_LOOK_UP_ANGLE : float					= 0.1
@@ -86,7 +86,7 @@ func BeepMineRange () -> void:
 	var closestDistance = INF
 	
 	for mine in minesList:
-		var curDistance = global_position.distance_to (mine.global_position)
+		var curDistance = global_position.distance_to (mine.global_position) - 6.0
 		
 		if curDistance < closestDistance:
 			closestDistance = curDistance
@@ -96,14 +96,17 @@ func BeepMineRange () -> void:
 	if closeMineTemp > MAX_RADAR_DISTANCE:
 		ResetRadarTimer (MAX_RADAR_DISTANCE)
 		return  
-		
+	
+	if closeMineTemp < 0.0:
+		closeMineTemp = 0.0
+	
 	var temp = closeMineTemp  / MAX_RADAR_DISTANCE
 	var delay = lerp (MIN_PULSE, MAX_PULSE, temp)
 	
 	if Global.radar_beeps_enabled: radarBeepSnd.play()
 	
 	#bandaid: i dont know why i need to speed it up
-	ResetRadarTimer (delay / 1.5)
+	ResetRadarTimer (delay)
 
 func _on_radar_timer_finished():
 	BeepMineRange()

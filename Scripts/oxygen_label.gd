@@ -1,10 +1,11 @@
 extends Label
 
-@onready var FTB : ColorRect = get_tree().get_root().get_node ("World/EscapepodMesh/PlayerSizeReference/CanvasLayer/FTB")
-@onready var losecon : Label = get_tree().get_root().get_node ("World/LOSECON")
-var oxygen : int			= 100
-var isOn : bool 			= false
-var switchFlipped : bool 	= false
+@onready var FTB : ColorRect 	= get_tree().get_root().get_node ("World/EscapepodMesh/PlayerSizeReference/CanvasLayer/FTB")
+@onready var losecon : Label 	= get_tree().get_root().get_node ("World/LOSECON")
+@onready var dying : 			= get_tree().get_root().get_node ("World/EscapepodMesh/dying")
+var oxygen : int				= 100
+var isOn : bool 				= false
+var switchFlipped : bool 		= false
 
 func _ready():
 	get_tree().create_timer (randf_range (7,20)).timeout.connect (TimerHolder)
@@ -21,11 +22,17 @@ func Looping():
 			text = "Oxygen: " + str (oxygen) + "%"
 			label_settings.font_color = Color.RED
 		else:
+			text = "Oxygen: 0%"
 			losecon.visible = true
 			await FTB.FadeToBlack()
 			get_tree().quit()
 			
+		if oxygen <= 50 and !dying.playing:
+			print('playing')
+			dying.play()
+			
 	if switchFlipped:
+		dying.stop()
 		switchFlipped = false
 		oxygen = 100
 		text = "Oxygen: 100%"

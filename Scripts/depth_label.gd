@@ -5,13 +5,13 @@ var timer : Timer
 
 func _ready() -> void:
 	timer = Timer.new()
-	timer.wait_time = 0.04
+	timer.wait_time = 0.035
 	timer.timeout.connect (Dummy)
 	add_child (timer)
 	timer.start()
 
 func Dummy() -> void:
-	await get_tree().create_timer (0.04).timeout
+	await get_tree().create_timer (0.035).timeout
 	depth -= 1
 	
 	if depth <= 0:
